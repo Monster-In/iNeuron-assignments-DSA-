@@ -1,0 +1,123 @@
+1def twoSum(nums, target):
+    complement_map = {}  # Hash map to store complements
+    
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in complement_map:
+            return [complement_map[complement], i]
+        complement_map[num] = i
+    
+    return []  # Return an empty list if no solution is found
+
+
+def removeElement(nums, val):
+    i = 0  # slow pointer
+    
+    for j in range(len(nums)):  # fast pointer
+        if nums[j] != val:
+            nums[i] = nums[j]
+            i += 1
+    
+    return i
+
+
+def search(nums, target):
+    left, right = 0, len(nums) - 1
+
+    while left <= right:
+        mid = left + (right - left) // 2
+        
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return left
+
+
+def incrementByOne(digits):
+    n = len(digits)
+    carry = 1  # Start with a carry of 1 since we want to increment by one
+    
+    for i in range(n-1, -1, -1):
+        total = digits[i] + carry
+        digits[i] = total % 10  # Update the digit at current position
+        carry = total // 10  # Update the carry
+        
+    if carry:
+        digits.insert(0, carry)  # Insert carry at the beginning if it's non-zero
+
+    return digits
+
+
+def merge(nums1, m, nums2, n):
+    # Initialize pointers for nums1, nums2, and the merged array
+    i = m - 1
+    j = n - 1
+    k = m + n - 1
+    
+    # Merge the arrays from the end
+    while i >= 0 and j >= 0:
+        if nums1[i] > nums2[j]:
+            nums1[k] = nums1[i]
+            i -= 1
+        else:
+            nums1[k] = nums2[j]
+            j -= 1
+        k -= 1
+    
+    # Copy remaining elements from nums2 if any
+    while j >= 0:
+        nums1[k] = nums2[j]
+        j -= 1
+        k -= 1
+
+
+def containsDuplicate(nums):
+    seen = set()
+    
+    for num in nums:
+        if num in seen:
+            return True
+        seen.add(num)
+    
+    return False
+
+
+def moveZeroes(nums):
+    # Initialize a pointer to keep track of the last non-zero element
+    lastNonZero = 0
+    
+    # Move all non-zero elements to the front of the array
+    for i in range(len(nums)):
+        if nums[i] != 0:
+            nums[lastNonZero] = nums[i]
+            lastNonZero += 1
+    
+    # Fill the remaining elements with zeros
+    for i in range(lastNonZero, len(nums)):
+        nums[i] = 0
+
+def findErrorNums(nums):
+    n = len(nums)  # Get the length of the input array
+    num_set = set()  # Create an empty set to store unique elements
+    duplicate = -1  # Variable to store the duplicate number, initialized with -1
+    
+    # Find the duplicate number
+    for num in nums:  # Iterate through each number in the input array
+        if num in num_set:  # If the number is already present in the set
+            duplicate = num  # Set the duplicate number
+        else:
+            num_set.add(num)  # Add the number to the set if it is not already present
+    
+    missing = -1  # Variable to store the missing number, initialized with -1
+    
+    # Find the missing number
+    for i in range(1, n + 1):  # Iterate through the range from 1 to n (inclusive)
+        if i not in num_set:  # If the current number is not present in the set
+            missing = i  # Set the missing number
+            break
+    
+    return [duplicate, missing]  # Return the result as [duplicate, missing]
