@@ -1,0 +1,151 @@
+def threeSumClosest(nums, target):
+    nums.sort()  # Sort the array in ascending order
+    n = len(nums)
+    closestSum = float('inf')
+
+    for i in range(n - 2):
+        left = i + 1
+        right = n - 1
+
+        while left < right:
+            currentSum = nums[i] + nums[left] + nums[right]
+
+            if currentSum == target:
+                return target
+
+            if abs(currentSum - target) < abs(closestSum - target):
+                closestSum = currentSum
+
+            if currentSum < target:
+                left += 1
+            else:
+                right -= 1
+
+    return closestSum
+
+
+def fourSum(nums, target):
+    nums.sort()
+    n = len(nums)
+    result = []
+
+    for a in range(n - 3):
+        if a > 0 and nums[a] == nums[a - 1]:
+            continue
+
+        for b in range(a + 1, n - 2):
+            if b > a + 1 and nums[b] == nums[b - 1]:
+                continue
+
+            left = b + 1
+            right = n - 1
+
+            while left < right:
+                currentSum = nums[a] + nums[b] + nums[left] + nums[right]
+
+                if currentSum == target:
+                    result.append([nums[a], nums[b], nums[left], nums[right]])
+
+                    while left < right and nums[left] == nums[left + 1]:
+                        left += 1
+
+                    while left < right and nums[right] == nums[right - 1]:
+                        right -= 1
+
+                    left += 1
+                    right -= 1
+                elif currentSum < target:
+                    left += 1
+                else:
+                    right -= 1
+
+    return result
+
+
+def nextPermutation(nums):
+    # Find the first pair of consecutive elements in descending order
+    i = len(nums) - 2
+    while i >= 0 and nums[i] >= nums[i+1]:
+        i -= 1
+    
+    if i >= 0:
+        # Find the smallest element in nums[i+1:] that is greater than nums[i]
+        j = len(nums) - 1
+        while j > i and nums[j] <= nums[i]:
+            j -= 1
+        # Swap nums[i] with nums[j]
+        nums[i], nums[j] = nums[j], nums[i]
+    
+    # Reverse the subarray nums[i+1:]
+    left = i + 1
+    right = len(nums) - 1
+    while left < right:
+        nums[left], nums[right] = nums[right], nums[left]
+        left += 1
+        right -= 1
+
+
+def searchInsert(nums, target):
+    left, right = 0, len(nums) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return left
+
+
+def incrementByOne(digits):
+    n = len(digits)
+    for i in range(n - 1, -1, -1):
+        if digits[i] < 9:
+            digits[i] += 1
+            return digits
+        digits[i] = 0
+    
+    # If we reach here, it means all digits are 9
+    digits.insert(0, 1)
+    return digits
+
+
+def singleNumber(nums):
+    result = 0
+    for num in nums:
+        result ^= num
+    return result
+
+
+def findMissingRanges(nums, lower, upper):
+    ranges = []
+    start = lower
+
+    for num in nums:
+        if num == start:
+            start += 1
+        elif num > start:
+            if start == num - 1:
+                ranges.append([start, start])
+            else:
+                ranges.append([start, num - 1])
+            start = num + 1
+
+    if start <= upper:
+        ranges.append([start, upper])
+
+    return ranges
+
+
+def canAttendMeetings(intervals):
+    intervals.sort(key=lambda x: x[0])  # Sort intervals based on start time
+
+    for i in range(1, len(intervals)):
+        if intervals[i][0] < intervals[i - 1][1]:
+            return False
+
+    return True
