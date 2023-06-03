@@ -1,0 +1,135 @@
+def find_common_elements(arr1, arr2, arr3):
+    freq = {}
+    for num in arr1:
+        freq[num] = freq.get(num, 0) + 1
+
+    for num in arr2:
+        if num in freq:
+            freq[num] += 1
+
+    for num in arr3:
+        if num in freq:
+            freq[num] += 1
+
+    common_elements = []
+    for num, count in freq.items():
+        if count == 3:
+            common_elements.append(num)
+
+    return common_elements
+
+
+
+def find_disjoint_elements(nums1, nums2):
+    freq1 = {}
+    freq2 = {}
+
+    for num in nums1:
+        freq1[num] = freq1.get(num, 0) + 1
+
+    for num in nums2:
+        freq2[num] = freq2.get(num, 0) + 1
+
+    distinct_nums1 = []
+    for num in nums1:
+        if num not in freq2:
+            distinct_nums1.append(num)
+
+    distinct_nums2 = []
+    for num in nums2:
+        if num not in freq1:
+            distinct_nums2.append(num)
+
+    return [distinct_nums1, distinct_nums2]
+
+
+def transpose(matrix):
+    n = len(matrix)
+
+    for i in range(n):
+        for j in range(i+1, n):
+            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+
+    return matrix
+
+
+def array_pair_sum(nums):
+    nums.sort()  # Sort the array in ascending order
+    pair_sum = 0
+
+    for i in range(0, len(nums), 2):
+        pair_sum += nums[i]
+
+    return pair_sum
+
+def arrange_coins(n):
+    left = 0
+    right = n
+
+    while left <= right:
+        mid = left + (right - left) // 2
+        curr_sum = (mid * (mid + 1)) // 2
+
+        if curr_sum == n:
+            return mid
+        elif curr_sum < n:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return right
+
+
+def sorted_squares(nums):
+    n = len(nums)
+    result = [0] * n
+    left = 0
+    right = n - 1
+    index = n - 1
+
+    while left <= right:
+        if abs(nums[left]) > abs(nums[right]):
+            result[index] = nums[left] * nums[left]
+            left += 1
+        else:
+            result[index] = nums[right] * nums[right]
+            right -= 1
+
+        index -= 1
+
+    return result
+
+
+
+def max_count(m, n, ops):
+    min_ai = m
+    min_bi = n
+
+    for op in ops:
+        min_ai = min(min_ai, op[0])
+        min_bi = min(min_bi, op[1])
+
+    return min_ai * min_bi
+
+
+
+def rearrange_array(nums, n):
+    result = [0] * (2 * n)
+    x_ptr = 0
+    y_ptr = n
+
+    for i in range(2 * n):
+        if i % 2 == 0:
+            result[i] = nums[x_ptr]
+            x_ptr += 1
+        else:
+            result[i] = nums[y_ptr]
+            y_ptr += 1
+
+    return result
+
+
+
+
+
+
