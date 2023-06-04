@@ -1,0 +1,155 @@
+def convert_to_2d_array(original, m, n):
+    if len(original) != m * n:
+        return []
+
+    result = [[0] * n for _ in range(m)]
+
+    for i in range(m):
+        for j in range(n):
+            result[i][j] = original[i * n + j]
+
+    return result
+
+
+def count_complete_rows(n):
+    complete_rows = 0
+    i = 1
+
+    while n >= i:
+        n -= i
+        complete_rows += 1
+        i += 1
+
+    return complete_rows
+
+def sortedSquares(nums):
+    result = [0] * len(nums)
+    left = 0
+    right = len(nums) - 1
+    index = len(nums) - 1
+
+    while left <= right:
+        if abs(nums[left]) > abs(nums[right]):
+            result[index] = nums[left] ** 2
+            left += 1
+        else:
+            result[index] = nums[right] ** 2
+            right -= 1
+        index -= 1
+
+    return result
+
+
+def findDistinct(nums1, nums2):
+    count = {}
+    for num in nums1:
+        count[num] = count.get(num, 0) + 1
+    for num in nums2:
+        count[num] = count.get(num, 0) + 1
+
+    distinct_nums1 = []
+    distinct_nums2 = []
+    for num, freq in count.items():
+        if freq == 1:
+            if num in nums1:
+                distinct_nums1.append(num)
+            else:
+                distinct_nums2.append(num)
+
+    return [distinct_nums1, distinct_nums2]
+
+
+
+def findDistanceValue(arr1, arr2, d):
+    arr1.sort()  # Sort arr1 in non-decreasing order
+    arr2.sort()  # Sort arr2 in non-decreasing order
+
+    distance = 0
+    i = 0  # Pointer for arr1
+    j = 0  # Pointer for arr2
+
+    while i < len(arr1) and j < len(arr2):
+        diff = abs(arr1[i] - arr2[j])
+
+        if diff > d:
+            # Increment distance if the condition is satisfied
+            distance += 1
+
+            # Move the pointer of arr1 forward
+            i += 1
+        elif diff < d:
+            # Move the pointer of arr2 forward
+            j += 1
+        else:
+            # If the difference is exactly equal to d, move both pointers forward
+            i += 1
+            j += 1
+
+    # Add the remaining elements of arr1 if any
+    distance += len(arr1) - i
+
+    return distance
+
+
+def findDuplicates(nums):
+    result = []
+    n = len(nums)
+
+    for i in range(n):
+        index = abs(nums[i]) - 1
+
+        if nums[index] < 0:
+            result.append(index + 1)
+        else:
+            nums[index] = -nums[index]
+
+    return result
+
+
+def findMin(nums):
+    left = 0
+    right = len(nums) - 1
+
+    while left < right:
+        mid = left + (right - left) // 2
+
+        if nums[mid] > nums[right]:
+            left = mid + 1
+        else:
+            right = mid
+
+    return nums[left]
+
+
+from collections import defaultdict
+
+def findOriginalArray(changed):
+    if len(changed) % 2 != 0:
+        return []
+
+    count = defaultdict(int)
+    original = []
+
+    # Build frequency map of elements in changed array
+    for num in changed:
+        count[num] += 1
+
+    # Iterate through changed array and reconstruct original array
+    for num in sorted(changed):
+        if count[num] == 0:
+            continue
+
+        count[num] -= 1
+
+        if count[2 * num] == 0:
+            return []
+
+        count[2 * num] -= 1
+        original.append(num)
+
+    # Check if all elements in changed array have been used
+    for num in count:
+        if count[num] > 0:
+            return []
+
+    return original
