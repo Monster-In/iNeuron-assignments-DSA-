@@ -1,0 +1,37 @@
+Move Zeroes
+
+def moveZeroes(nums):
+    lastNonZero=0
+    
+    # Loop through the array to move non-zero elements to the front
+    for i in range(len(nums)):
+        if nums[i]!=0:
+            nums[lastNonZero]=nums[i]
+            lastNonZero+=1
+            
+    # After moving all non-zero elements, fill the remaining positions with zeroes        
+    for i in range(lastNonZero,len(nums)):
+        nums[i]=0
+        
+        
+        
+First Unique Character in a String
+
+def firstUniqChar(s):
+    char_count={}
+
+    # Count the occurrences of each character
+    for char in s:
+        char_count[char]=char_count.get(char, 0) + 1
+
+    # Find the index of the first unique character
+    for i in range(len(s)):
+        if char_count[s[i]]==1:
+            return i
+
+    # If no non-repeating character found, return -1
+    return -1
+
+        
+
+        
