@@ -1,0 +1,66 @@
+def isPowerOfTwo(n):
+    if n == 1:
+        return True
+    elif n <= 0 or n % 2 != 0:
+        return False
+    else:
+        return isPowerOfTwo(n // 2)
+
+
+
+def sumOfNaturalNumbers(n):
+    if n == 1:
+        return 1
+    else:
+        return n + sumOfNaturalNumbers(n - 1)
+
+
+
+def factorial(N):
+    if N == 0 or N == 1:
+        return 1
+    else:
+        return N * factorial(N - 1)
+
+
+
+def power(N, P):
+    if P == 0:
+        return 1
+    else:
+        return N * power(N, P - 1)
+
+
+
+def findMax(arr):
+    if len(arr) == 1:
+        return arr[0]
+    else:
+        return max(arr[0], findMax(arr[1:]))
+
+
+
+def nthTerm(a, d, N):
+    if N == 1:
+        return a
+    else:
+        return nthTerm(a + d, d, N - 1)
+
+
+
+def permutations(S, l, r):
+    if l == r:
+        print("".join(S))
+    else:
+        for i in range(l, r + 1):
+            S[l], S[i] = S[i], S[l]  # Swap characters
+            permutations(S, l + 1, r)  # Recursion
+            S[l], S[i] = S[i], S[l]  # Revert back the swap
+
+
+
+def productOfArray(arr, n):
+    if n == 0:
+        return arr[0]
+    else:
+        return arr[n] * productOfArray(arr, n - 1)
