@@ -1,0 +1,114 @@
+def isPowerOfThree(n):
+    if n == 1:
+        return True
+    elif n < 1 or n % 3 != 0:
+        return False
+    else:
+        return isPowerOfThree(n / 3)
+
+
+
+def lastRemaining(arr, leftToRight=True):
+    if len(arr) == 1:
+        return arr[0]
+    
+    if leftToRight:
+        newArr = arr[::2]  # Remove every other number starting from the first element
+    else:
+        newArr = arr[-2::-2]  # Remove every other number starting from the last element
+    
+    return lastRemaining(newArr, not leftToRight)
+
+
+
+def generateSubsets(s, curr_subset, index):
+    # Base case: when we reach the end of the string
+    if index == len(s):
+        print(curr_subset)
+        return
+    
+    # Exclude the current character and move to the next index
+    generateSubsets(s, curr_subset, index + 1)
+    
+    # Include the current character and move to the next index
+    generateSubsets(s, curr_subset + s[index], index + 1)
+
+def subsets(s):
+    generateSubsets(s, "", 0)
+    
+    
+
+def stringLength(s):
+    if s == "":
+        return 0
+    else:
+        return 1 + stringLength(s[1:])
+        
+
+
+
+def countSameCharSubstrings(s, start, end):
+    # Base case: when the start and end indices cross each other
+    if start > end:
+        return 0
+
+    # Recursive case: count substrings that start and end with the same character
+    count = countSameCharSubstrings(s, start, end - 1)  # Count substrings without the last character
+
+    if s[start] == s[end]:
+        count += 1  # Add 1 for the current substring
+        count += countSameCharSubstrings(s, start + 1, end - 1)  # Count substrings within the current substring
+
+    return count
+
+def countSameCharSubstringsWrapper(s):
+    n = len(s)
+    return countSameCharSubstrings(s, 0, n - 1)
+    
+ 
+ 
+ 
+
+def towerOfHanoi(n, source, destination, auxiliary):
+    if n == 1:
+        print("Move disk 1 from rod", source, "to rod", destination)
+        return 1
+    
+    moves = 0
+    moves += towerOfHanoi(n - 1, source, auxiliary, destination)  # Move n-1 disks from source to auxiliary
+    print("Move disk", n, "from rod", source, "to rod", destination)
+    moves += 1
+    moves += towerOfHanoi(n - 1, auxiliary, destination, source)  # Move n-1 disks from auxiliary to destination
+    
+    return moves
+    
+
+
+
+
+def permute(s, l):
+    if len(s) == 0:
+        print(l)
+        return
+    
+    for i in range(len(s)):
+        new_s = s[:i] + s[i+1:]  # Remove the current character from s
+        new_l = l + s[i]  # Append the current character to l
+        permute(new_s, new_l)
+        # Restore the original state of s and l for the next iteration
+        s = s[:i] + s[i] + s[i+1:]
+        l = l[:-1]
+        
+
+
+
+
+def countConsonants(s):
+    if s == "":
+        return 0
+    
+    first_char = s[0].lower()
+    if first_char.isalpha() and first_char not in "aeiou":
+        return 1 + countConsonants(s[1:])
+    else:
+        return countConsonants(s[1:])
